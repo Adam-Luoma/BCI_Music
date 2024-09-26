@@ -72,7 +72,7 @@ while True:
                 if chord.function == 'tonic':
                     chord_choices.append(chord) 
 
-        two_options = random.sample(chord_choices, 2)
+        two_options = random.sample(chord_choices, 2) # select 2 chords as options 
 
         decision = 0    #  holding 0 for BCI until it has made a decision on what chord is chosen
 
