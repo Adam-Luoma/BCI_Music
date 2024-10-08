@@ -13,6 +13,7 @@ Gmaj = Chord('Gmaj','IDUN_P300_App/Audio_Files/Gmaj.wav','dom')
 Bmin_dim = Chord('Bmin_dim','IDUN_P300_App/Audio_Files/Bmin_dim.wav', 'dom')
 
 chord_list = [Cmaj, Amin, Fmaj, Gmaj, Dmin, Bmin_dim]
+progression = []
 
 # initialize backing track
 Drums = sound.Sound("IDUN_P300_App/Audio_Files/drum_backing.wav")
@@ -54,6 +55,7 @@ while True:
     progression_length = 1
 
     while progression_length < 4:
+        progression.append(current_chord)
         chord_choices = []
 
         # depending on current chord function is, what subsequent chords should we look for (e.g. if the current chord has tonic function, we look for subdominant chords)
@@ -107,11 +109,22 @@ while True:
                 marker_outlet.push_sample(markers[0], timestamp) 
 
             # Check for signal from BCI with a decision
-            core.wait(5)
+            while True:
+                if 'f' in keys:
+                    current_chord = two_options[choice]
+                    decision = 1
+                    break
+                elif 'l' in keys:
+                    current_chord = two_options[choice - 1] #need to check how reverse indexing works in python
+                    decision = 1
+                    break
+
+    for chords in progression:      #once full progression is made, play the chord progression for listeners
+        chords.audio.play()
             
 
-        win.close()
-        core.quit()
+    win.close()
+    core.quit()
 
 
 
